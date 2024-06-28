@@ -1,6 +1,10 @@
 
 <h1 dir="rtl" align = "center"> Axios in React Js 
 
+<h4>
+    نگارنده :
+    علی نعمت دوست
+</h4>
 <h1 dir="rtl" > مقدمه  </h1>
 
 <p dir="rtl">
@@ -95,9 +99,9 @@ export default GetData;
     
 </p>
 
-<h6 dir="rtl">
+<h3>
     fetchData
-</h6>
+</h3>
 
 ```jsx
 const fetchData = async () => {
@@ -120,4 +124,5 @@ const fetchData = async () => {
 
 
 <h2> ارسال درخواست POST با استفاده از Axios </h2>
+
 
