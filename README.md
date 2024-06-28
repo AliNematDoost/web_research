@@ -1,5 +1,5 @@
 
-<h1 dir="rtl" align = "center"> Axios in React Js </h1>
+<h1 dir="rtl" align = "center"> Axios in React Js 
 
 <h1 dir="rtl" > مقدمه  </h1>
 
@@ -90,6 +90,34 @@ export default GetData;
 
 <p>
     در این مثال، تابع fetchData را ساخته ایم که با استفاده از Axios درخواست GET را به سمت سرویس JSONPlaceholder API ارسال میکند. در ادامه پاسخ دریافت شده از سرور را در یک state به نام Data ( با مقدار اولیه یک آرایه تهی ) که پیشتر ساخته شده  ذخیره می‌کنیم. با استفاده از useState متدی به نام setData برای تغییر و مقداردهی Data تعیین شده است.
-    در ادامه با استفاده از Hook تابع fetchData را پس از اجرای برنامه فرا خوانی میکنیم
+    در ادامه با استفاده از Hook تابع fetchData را پس از اجرای برنامه فرا خوانی میکنیم تا فرآیندهای ارسال درخواست و ذخیره نتایج حاصل به شرح بالا انجام شوند.
+    در انتها نیز از تابع map برای نشان دادن لیست Post های ذخیره شده در Data استفاده شده است. 
     
 </p>
+
+<h6 dir="rtl">
+    fetchData
+</h6>
+
+```jsx
+const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+```
+
+<p>
+    استفاده از Axios یکی از ساده ترین روش های ارسال درخواست HTTP به سرور می‌باشد. این موضوع را به وضوح در استفاده از Axios برای ارسال درخواست GET میتوان مشاهده کرد. 
+    پس از مشخص کردن نوع درخواست و URL ، صرفا کافی است برای دسترسی به پاسخ سرور از متد .data استفاده کرد. این یکی از برتری های Axios بر روش های دیگری همچون fetch می‌باشد. یعنی :
+    <p><mark><b>
+         در Axios به صورت خودکار داده های دریافتی از سرور به فرمت JSON تبدیل خواهند شد و نیازی به تبدیل نیست.
+    </b></mark></p>
+</p>
+
+
+<h2> ارسال درخواست POST با استفاده از Axios </h2>
+
