@@ -143,7 +143,7 @@ const AddPost = () => {
   });
 
   const handleChange = (event) => {
-    setFormData({ ...postData, [event.target.name]: event.target.value });
+    setPostData({ ...postData, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
