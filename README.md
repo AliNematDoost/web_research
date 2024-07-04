@@ -1,22 +1,24 @@
 
 <h1 dir="rtl" align = "center"> Axios in React Js 
 
-<h4>
+<h4 align="center">
     نگارنده :
     علی نعمت دوست / محمد زارع
 </h4>
 <h1 dir="rtl" > مقدمه  </h1>
 
-<p dir="rtl">
-    در برنامه هایی که با استفاده از React Js میسازیم، گاهی لازم است تا برای تبادل اطلاعات با Back-End پروژه داده هایی را ارسال یا دریافت کنیم و سپس داده ها را پردازش کنیم. برای این منظور ابزار ها و روش های گوناگونی وجود دارد. در حالی که بسیاری با ابزارهایی مانند Fetch API آشنایی دارند، کتابخانه قدرتمندی به نام Axios وجود دارد که این فرآیند را بسیار ساده می‌کند. 
-</p>
+<div dir="rtl">
+    در برنامه هایی که با استفاده از React Js میسازیم، گاهی لازم است تا برای تبادل اطلاعات با Back-End پروژه داده هایی را ارسال یا دریافت کنیم و سپس داده ها را پردازش کنیم. برای این منظور ابزار ها و روش های گوناگونی وجود دارد. در حالی که بسیاری با ابزارهایی مانند Fetch API آشنایی دارند، کتابخانه قدرتمندی به نام Axios وجود دارد که این فرآیند را بسیار ساده می‌کند. این ساده‌ سازی فرآیند ارسال درخواست ها به سرور می تواند در بخش های گوناگونی به توسعه دهنده کمک کند و از بروز مشکلات ساختاری در کد جلوگیری کند. 
+    در ادامه به برخی از این ساده سازی ها اشاره خواهیم کرد.
+</div>
 
 
 <h1 dir="rtl" >  Axios </h1>
 
 <p dir="rtl">
- Axios مسئول ارسال درخواست ها (asynchronous HTTP requests) به REST endpoints یا بعبارتی همان Back-End پروژه و ارائه نتایج حاصل می‌باشد. در ادامه با ویژگی ها و کارکرد های Axios بیشتر آشنا میشویم. 
-  
+کتابخانه Axios مسئول ارسال درخواست ها (asynchronous HTTP requests) به REST endpoints یا بعبارتی همان Back-End پروژه و ارائه نتایج حاصل می‌باشد. تمام HTTP request ها توسط این کتابخانه ارائه می شوند همانند POST , GET , PUT , DELETE , ... . موضوعی که کتابخانه Axios را بر سایر ابزار های تبادل اطلاعات با سرور برتری می بخشد بحث مدیریت و دسترسی به داده های دریافت شده از سرور است. در این بخش Axios موارد زیادی را بصورت خودکار اعمال میکند و برخلاف روش هایی مانند Fetch API نیاز به مدیریت دستی این موارد نیست. یکی از این موارد کار با داده های JSON است که Axios به طور خودکار تبدیل اطلاعات دریافتی به این فرمت را انجام می دهد.
+    در ادامه با ویژگی ها و کارکرد های Axios بیشتر آشنا میشویم. 
+    
 </p>
 
 <h1 dir="rtl"> استفاده از Axios </h1>
@@ -61,27 +63,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const GetData = () => {
-  const [data, setData] = useState([]);
 
-  const fetchData = async () => {
+  const [post, setPost] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchPost = async () => {
     try {
       const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
-      setData(response.data);
+      setPost(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      setError(error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchPost();
   }, []);
+
+  if (error) {
+    return (
+      <div>
+        {error.message}
+      </div>
+    );
+  }
 
   return (
     <div>
       <h2>Posts:</h2>
       <ul>
-        {data.map((post) => (
-          <li key={post.id}>{post.title}</li>
+        {post.map( (item) => (
+          <li key={item.id} > {item.title} </li>
         ))}
       </ul>
     </div>
@@ -93,25 +105,25 @@ export default GetData;
 <h5> بررسی مثال بالا </h5>
 
 <p>
-    در این مثال، تابع fetchData را ساخته ایم که با استفاده از Axios درخواست GET را به سمت سرویس JSONPlaceholder API ارسال میکند. در ادامه پاسخ دریافت شده از سرور را در یک state به نام Data ( با مقدار اولیه یک آرایه تهی ) که پیشتر ساخته شده  ذخیره می‌کنیم. با استفاده از useState متدی به نام setData برای تغییر و مقداردهی Data تعیین شده است.
-    در ادامه با استفاده از Hook تابع fetchData را پس از اجرای برنامه فرا خوانی میکنیم تا فرآیندهای ارسال درخواست و ذخیره نتایج حاصل به شرح بالا انجام شوند.
-    در انتها نیز از تابع map برای نشان دادن لیست Post های ذخیره شده در Data استفاده شده است. 
+    در این مثال، تابع fetchPost را ساخته ایم که با استفاده از Axios درخواست GET را به سمت سرویس JSONPlaceholder API ارسال میکند. در ادامه پاسخ دریافت شده از سرور را در یک state به نام post ( با مقدار اولیه یک آرایه تهی ) که پیشتر ساخته شده  ذخیره می‌کنیم. با استفاده از useState متدی به نام setPost برای تغییر و مقداردهی post تعیین شده است.
+    در ادامه با استفاده از Hook تابع fetchPost را پس از اجرای برنامه فرا خوانی میکنیم تا فرآیندهای ارسال درخواست و ذخیره نتایج حاصل به شرح بالا انجام شوند.
+    در انتها نیز از تابع map برای نشان دادن لیست Post های ذخیره شده در post استفاده شده است. 
     <p><mark><b>
         چون Axios مبتنی بر promise می‌باشد، به ما این قابلیت را می دهد تا برای داشتن کد asynchronous خوانا تر از مزایای async و await استفاده کنیم .
     </b></mark></p>
 </p>
 
 <h3>
-    fetchData
+    fetchPost
 </h3>
 
 ```jsx
-const fetchData = async () => {
+  const fetchPost = async () => {
     try {
       const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
-      setData(response.data);
+      setPost(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      setError(error);
     }
   };
 ```
@@ -141,6 +153,7 @@ const AddPost = () => {
     title: "",
     body: "",
   });
+  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     setPostData({ ...postData, [event.target.name]: event.target.value });
@@ -150,11 +163,19 @@ const AddPost = () => {
     event.preventDefault();
     try {
       const response = await axios.post("https://jsonplaceholder.typicode.com/posts", postData);
-      alert("New Post has been created")
+      alert("New Post is added. ")
     } catch (error) {
-      console.error("Connection Error. ");
+      setError("Connection Lost: " + error.message);
     }
   };
+
+  if (error) {
+    return (
+      <div>
+        {error}
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -178,30 +199,30 @@ export default AddPost;
 
 <h5> بررسی مثال بالا </h5>
 <p>
-    در این مثال یک form داریم که اطلاعات یک شی Post را از کاربر دریافت میکند. با submit کردن فرم تابع handleSubmit فراخوانی شده، اطلاعات Post جدید را ارسال کرده و پیامی را به کاربر alert میکند. 
+    در این مثال یک form داریم که اطلاعات یک شی Post را از کاربر دریافت میکند. با submit کردن فرم تابع handleSubmit فراخوانی شده، اطلاعات Post جدید را ارسال کرده و پیامی را به کاربر alert میکند. در غیر این صورت state ارور ( error ) با پیام خطای رخ داده آپدیت می شود.
     در این فرآیند از یک state به نام postData استفاده می شود که اطلاعات هر ورودی فرم در صورت تغییر با استفاده از handleChange در آن ذخیره می شود. برای آشنایی بیشتر با فرآیند ذخیره داده در state به فرم آرایه می توانید از لینک زیر بازدید کنید :
     https://www.dhiwise.com/post/react-append-to-state-array-understanding-immutability
 </p>
 
 <h3>
-    postData
+    AddPost
 </h3>
 
 ```jsx
-const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post("https://jsonplaceholder.typicode.com/posts", postData);
       alert("New Post has been created")
     } catch (error) {
-      console.error("Connection Error. ");
+      setError("Connection Error. " + error.message);
     }
   };
 ```
 
 <p>
-    همانطور که واضح است شاهد مقدار زیادی مشابهت با فرآیند ارسال درخواست GET هستیم و این یکی از نقاط قوت و برتری Axios بر سایر روش ها است. 
-    اما از جمله تفاوت های میان ارسال درخواست POST و GET میتوان اشاره کرد به قرار گرفتن body درخواست POST هنگام ارسال درخواست.
+    همانطور که واضح است شاهد مقدار زیادی مشابهت با فرآیند ارسال درخواست GET هستیم و این یکی از نقاط قوت و برتری Axios بر سایر روش ها است. ضمنا برای اطمینان از انجام فرآیند ارسال و دریافت داده از سرور پیامی را در صورت انجام بدون اشکال کار به کاربر alert میکنیم. در غیر این صورت نیز در state دیگری به نام error پیام اشکالی که رخ داده است را ذخیره کرده و در ادامه آن را به کاربر نمایش می دهیم.
+    اما از جمله تفاوت های میان ارسال درخواست POST و GET میتوان اشاره کرد به قرار گرفتن body درخواست POST هنگام ارسال درخواست. علاوه بر این با استفاده از این کتابخانه Header نیز می توانیم برای درخواست قرار دهیم.
 
 </p>
 
